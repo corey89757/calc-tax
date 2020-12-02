@@ -17,7 +17,7 @@ public class TaxMain {
 
     public static void main(String[] args) throws IOException {
 
-        List<String> collect = Files.lines(Paths.get("/Users/corey/IdeaProjects/calc-tax/src/main/resources/tax-wj"), StandardCharsets.UTF_8)
+        List<String> collect = Files.lines(Paths.get("/Users/corey/IdeaProjects/calc-tax/src/main/resources/tax-qlj"), StandardCharsets.UTF_8)
                 .collect(Collectors.toList());
 
         BigDecimal accumulatedIncome = new BigDecimal(0);
@@ -59,9 +59,9 @@ public class TaxMain {
                 tex = new BigDecimal(0);
             }
 
-            System.out.printf("%2s月：%10s=(%s-(%s+%s+%s)*%s)*%s-%s-%s\n", month.toString(),tex.toString(),
+            System.out.printf("%2s月：%10s=(%s-%s-%s-%s)*%s-%s-%s\n", month.toString(), tex.toString(),
                     accumulatedIncome.toString(),
-                    deduction1.toString(), deduction2.toString(), deduction3.toString(), month.toString(),
+                    accumulatedDeduction1.toString(), accumulatedDeduction2.toString(), accumulatedDeduction3.toString(),
                     ratio.toString(), subtrahend.toString(), accumulatedTax.toString());
 
             accumulatedTax = accumulatedTax.add(tex).setScale(2, RoundingMode.HALF_UP);
@@ -71,6 +71,9 @@ public class TaxMain {
 
     //预扣率
     public static BigDecimal getRatio(long subSum) {
+
+//        System.out.println("subSum: " + subSum);
+
         if (subSum <= 36000) {
             return new BigDecimal(0.03);
         } else if (subSum <= 144000) {
